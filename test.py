@@ -4,7 +4,7 @@ import streamlit as st
 
 # ---------------------- 기본 설정 ----------------------
 st.set_page_config(
-    page_title="📚 반짝반짝 랜덤 북픽",
+    page_title="📚 랜덤 책 추천기",
     page_icon="📚",
     layout="wide",
 )
@@ -28,76 +28,43 @@ st.markdown("""
   font-weight: 800;
   background: linear-gradient(90deg, #7c3aed, #2563eb, #059669, #f59e0b, #db2777);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.floaty {
-  display: inline-block;
-  animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-  0%   { transform: translateY(0px) rotate(0deg); }
-  50%  { transform: translateY(-6px) rotate(2deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-.chip {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.06);
-  margin-right: 8px;
-  font-size: 12px;
-}
-.small {
-  font-size: 13px;
-  opacity: 0.8;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# ---------------------- 데이터 ----------------------
-BOOKS = {
-    "문학 📖": [
-        {"title": "백년의 고독", "mood": "마법적 사실주의의 몽환 ✨", "why": "현실과 환상이 어우러진 대서사"},
-        {"title": "죄와 벌", "mood": "양심과 구원의 심연 🌓", "why": "인간 내면을 파고드는 심리 드라마"},
-        {"title": "데미안", "mood": "자아 찾기의 여정 🌱", "why": "성장과 각성의 상징"},
-        {"title": "1984", "mood": "디스토피아의 경고 🚨", "why": "감시와 자유에 대한 질문"}
+  -webkit-text-fill-color로", "summary": "정체 모를 바이러스가 전 세계를 뒤덮고 듣지도 말하지도 못하는 동생 미소를 지키며 맨몸으로 러시아를 걸어 온 도리는 일가친척과 함께 탑차를 타고 세계를 떠돌던 지나와 만나데 되어 일어나는 일을 담은 소설이다."}
     ],
     "인문 🧠": [
-        {"title": "사피엔스", "mood": "인류의 거대한 서사 🌍", "why": "우리가 어떻게 지금의 우리가 되었는가"},
-        {"title": "공정하다는 착각", "mood": "정의에 대한 토론 🗣️", "why": "능력주의와 공정성의 경계"},
-        {"title": "생각의 지도", "mood": "문화와 인지의 교차로 🧭", "why": "서양/동양 사고방식의 차이"},
-        {"title": "국가란 무엇인가", "mood": "정치철학 입문 🚪", "why": "국가와 시민의 역할"}
+        {"title": "사피엔스", "summary": "호모 사피엔스가 인류 문명의 주체가 되기까지의 과정을 탐구하는 역사 인문서."},
+        {"title": "공정하다는 착각", "summary": "능력주의와 공정성의 이면을 분석하며 현대 사회 불평등 문제를 다룬 책."},
+        {"title": "생각의 지도", "summary": "동양과 서양의 문화적 차이가 사고방식에 어떻게 반영되는지를 설명하는 연구서."},
+        {"title": "국가란 무엇인가", "summary": "국가의 본질과 기능, 그리고 시민의 역할을 철학적으로 고찰한 책."}
     ],
     "과학 🔬": [
-        {"title": "코스모스", "mood": "우주를 산책하는 밤 🌌", "why": "과학의 경이와 인문학적 울림"},
-        {"title": "시간의 역사", "mood": "블랙홀과 시간 여행 ⏳", "why": "우주의 기원을 이해하는 즐거움"},
-        {"title": "이기적 유전자", "mood": "진화의 시선 🧬", "why": "유전자 중심의 생명 전략"},
-        {"title": "팩트풀니스", "mood": "세상을 보는 데이터 안경 📈", "why": "오해를 걷어내는 통계적 시각"}
+        {"title": "코스모스", "summary": "칼 세이건이 우주의 탄생과 과학적 탐구의 역사를 대중적으로 설명한 명저."},
+        {"title": "시간의 역사", "summary": "스티븐 호킹이 시간, 우주, 블랙홀 등 현대 물리학의 핵심을 쉽게 풀어낸 책."},
+        {"title": "이기적 유전자", "summary": "리처드 도킨스가 유전자 중심으로 진화의 과정을 설명한 과학 고전."},
+        {"title": "팩트풀니스", "summary": "세계에 대한 잘못된 인식을 통계와 데이터로 바로잡는 시각을 제시하는 책."}
     ],
     "역사 🏛️": [
-        {"title": "총, 균, 쇠", "mood": "문명의 불평등 해부 🧩", "why": "지리와 환경이 만든 역사"},
-        {"title": "사기", "mood": "인물로 읽는 대중사 👤", "why": "흥미로운 고대 중국사의 보고"},
-        {"title": "로마인 이야기 1", "mood": "제국의 시작 🦅", "why": "로마의 성장 동력"},
-        {"title": "역사의 쓸모", "mood": "일상에서 쓰는 역사 🧰", "why": "현재를 읽는 역사적 관점"}
+        {"title": "총, 균, 쇠", "summary": "지리적 요인과 환경이 문명의 발달과 불평등을 만든 과정을 탐구."},
+        {"title": "사기", "summary": "사마천이 집필한 중국의 역사서로, 인물 중심으로 기록된 방대한 이야기."},
+        {"title": "로마인 이야기 1", "summary": "로마 제국의 기원과 발전을 흥미롭게 서술한 역사 교양서."},
+        {"title": "역사의 쓸모", "summary": "역사를 통해 현재의 문제를 이해하고 해결의 단서를 찾을 수 있음을 보여주는 책."}
     ],
     "보건 🩺": [
-        {"title": "왜 우리는 병에 걸리는가", "mood": "진화와 질병의 역학 🧪", "why": "몸의 취약성 이해"},
-        {"title": "음식 혁명", "mood": "식생활 리부트 🥗", "why": "건강한 식습관의 힘"},
-        {"title": "면역에 관하여", "mood": "몸의 수호자들 🛡️", "why": "면역 시스템 알기"},
-        {"title": "공중보건의 눈으로 본 세상", "mood": "사회와 건강의 링크 🌐", "why": "개인의 건강을 넘는 시야"}
+        {"title": "왜 우리는 병에 걸리는가", "summary": "진화의 관점에서 인간이 질병에 취약한 이유를 설명한 책."},
+        {"title": "음식 혁명", "summary": "잘못된 식습관이 건강에 미치는 영향을 짚고 올바른 식생활을 제안한다."},
+        {"title": "면역에 관하여", "summary": "우리 몸의 면역 체계를 알기 쉽게 소개하며 건강과의 관계를 설명한다."},
+        {"title": "공중보건의 눈으로 본 세상", "summary": "공중보건의 시각에서 개인과 사회의 건강 문제를 다룬 책."}
     ],
     "미술 🎨": [
-        {"title": "서양 미술사", "mood": "명작으로 걷는 타임라인 🖼️", "why": "미술 흐름을 한눈에"},
-        {"title": "칸딘스키, 예술에서의 정신적인 것", "mood": "색과 형태의 언어 🔺", "why": "추상미술의 선언"},
-        {"title": "색채의 역사", "mood": "색의 문화사 🌈", "why": "색이 바꾼 미감과 권력"},
-        {"title": "그림으로 보는 미술사", "mood": "비주얼 압도 📚", "why": "이미지로 읽는 교양"}
+        {"title": "서양 미술사", "summary": "고대부터 현대까지 서양 미술의 흐름을 정리한 교양서."},
+        {"title": "칸딘스키, 예술에서의 정신적인 것", "summary": "추상미술의 창시자가 예술의 본질과 정신적 가치를 논한 책."},
+        {"title": "색채의 역사", "summary": "인류 문화 속에서 색이 지닌 의미와 변천사를 다룬 책."},
+        {"title": "그림으로 보는 미술사", "summary": "풍부한 이미지와 함께 미술사를 쉽게 풀어낸 교양서."}
     ],
     "음악 🎵": [
-        {"title": "서양 음악사", "mood": "중세부터 현대까지 🎼", "why": "장르와 양식의 진화"},
-        {"title": "클래식, 나의 첫 안내서", "mood": "입문자 맞춤 길잡이 🚪", "why": "작곡가와 곡 친해지기"},
-        {"title": "재즈의 역사", "mood": "즉흥과 스윙의 계보 🎷", "why": "자유와 창의의 사운드"},
-        {"title": "리듬의 과학", "mood": "비트의 비밀 🥁", "why": "몸이 반응하는 이유"}
+        {"title": "서양 음악사", "summary": "중세부터 현대까지 음악사의 큰 흐름을 정리한 교양서."},
+        {"title": "클래식, 나의 첫 안내서", "summary": "클래식 음악 입문자를 위해 작곡가와 작품을 소개한다."},
+        {"title": "재즈의 역사", "summary": "재즈 음악의 기원과 발전 과정을 탐구한 책."},
+        {"title": "리듬의 과학", "summary": "인간이 리듬에 반응하는 원리를 과학적으로 설명한다."}
     ],
 }
 
@@ -131,8 +98,7 @@ st.markdown(f"""
   <div class="chip">오늘의 픽</div>
   <h2 style="margin:6px 0;">{CATEGORY_EMOJIS.get(selected,'📚')} <b>{candidate['title']}</b></h2>
   <div class="small">장르: {selected}</div>
-  <p style="margin-top:10px;">💡 <b>분위기</b>: {candidate['mood']}</p>
-  <p>🌟 <b>추천 이유</b>: {candidate['why']}</p>
+  <p style="margin-top:10px;">📖 <b>줄거리</b>: {candidate['summary']}</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -140,6 +106,4 @@ st.markdown(f"""
 st.write("")
 st.markdown('<div class="small">made with ❤️ streamlit · 이모지 파티 🎉</div>', unsafe_allow_html=True)
 
-  
- 
-  
+
