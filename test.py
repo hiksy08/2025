@@ -62,7 +62,7 @@ st.markdown(
     """
     <style>
     .title {
-        font-size: 42px; 
+        font-size: 40px; 
         font-weight: 800; 
         text-align: center; 
         margin: 8px 0 2px 0;
@@ -111,7 +111,7 @@ st.markdown(
 )
 
 st.markdown('<div class="title">📚 랜덤 책 추천기</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">장르를 고르면 오늘의 한 권을 뽑아드려요 🎲✨</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">장르를 고르면 오늘의 한 권을 추천해드려요</div>', unsafe_allow_html=True)
 
 # 세션 상태로 "다시 뽑기" 동작 제어
 if "roll" not in st.session_state:
@@ -127,10 +127,9 @@ with st.container():
             "장르를 선택하세요",
             options=list(BOOKS.keys()),
             index=0,
-            help="문학, 인문, 과학, 역사, 보건, 미술, 음악 중에서 골라보세요!",
         )
     with col2:
-        reroll = st.button("🔄 다시 뽑기")
+        reroll = st.button("다시 뽑기 🔄")
         if reroll:
             st.session_state.roll += 1  # 값만 바꿔도 재추천 트리거
 
@@ -143,7 +142,7 @@ st.markdown("---")
 
 with st.container():
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown(f'<span class="badge">선택한 장르</span>  🎼🎨🧠🧪📖🕰️💊  <b>{genre}</b>', unsafe_allow_html=True)
+    st.markdown(f'<span class="badge">선택한 장르</span> <b>{genre}</b>', unsafe_allow_html=True)
 
     if books_in_genre:
         random.seed((hash(genre) + st.session_state.roll) % (2**32))
@@ -152,20 +151,18 @@ with st.container():
         title, author = book
         st.markdown(
             f"""
-            <div class="book-title">✨ 『{title}』</div>
-            <div class="book-author">✍️ {author}</div>
+            <div class="book-title">『{title}』</div>
+            <div class="book-author">저자: {author}</div>
             """,
             unsafe_allow_html=True,
         )
 
-        st.toast("오늘의 한 권이 도착했어요! 📦", icon="🎉")
-        st.markdown('<div class="hint">Tip: 마음에 안 들면 <b>🔄 다시 뽑기</b>를 눌러보세요!</div>', unsafe_allow_html=True)
+        st.markdown('<div class="hint">다른 책을 보고 싶다면 <b>다시 뽑기</b>를 눌러보세요!</div>', unsafe_allow_html=True)
     else:
         st.markdown(
             """
             <div style="font-size:18px; margin-top:6px;">
-            아직 이 장르의 목록이 비어 있어요 😅<br>
-            추천 데이터를 추가하면 바로 랜덤 추천을 드릴게요!
+            아직 이 장르의 목록이 비어 있어요.
             </div>
             """,
             unsafe_allow_html=True,
@@ -174,5 +171,4 @@ with st.container():
 
 # Footer
 st.markdown("")
-st.caption("© 랜덤 책 추천기 — Have a bookish day! 📘🌙")
-
+st.caption("© 랜덤 책 추천기")
