@@ -175,3 +175,4 @@ with st.container():
 # Footer
 st.markdown("")
 st.caption("© 랜덤 책 추천기 — Have a bookish day! 📘🌙")
+
