@@ -3,7 +3,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="랜덤 책 추천기",
-    page_icon="📚",
+    page_icon="📖",
     layout="centered"
 )
 
@@ -62,56 +62,58 @@ st.markdown(
     """
     <style>
     .title {
-        font-size: 40px; 
-        font-weight: 800; 
+        font-size: 38px; 
+        font-weight: 900; 
         text-align: center; 
-        margin: 8px 0 2px 0;
+        margin: 10px 0;
+        color: #2E2E3A;
     }
     .subtitle {
         text-align: center; 
         font-size: 16px; 
-        opacity: 0.85; 
-        margin-bottom: 18px;
+        opacity: 0.8; 
+        margin-bottom: 25px;
     }
     .card {
-        border-radius: 20px;
-        padding: 22px;
-        border: 1px solid rgba(120,120,120,0.15);
-        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-        background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(250,250,255,0.9));
+        border-radius: 16px;
+        padding: 25px;
+        border: 1px solid rgba(0,0,0,0.05);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        background: #ffffffcc;
     }
     .badge {
         display: inline-block;
-        padding: 6px 12px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        border: 1px solid rgba(120,120,255,0.25);
-        background: rgba(120,120,255,0.08);
-        letter-spacing: .3px;
-        margin-bottom: 10px;
+        padding: 5px 12px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        background: #f1f3f8;
+        color: #333;
+        margin-bottom: 12px;
     }
     .book-title {
-        font-size: 26px; 
+        font-size: 28px; 
         font-weight: 800; 
-        margin: 6px 0 4px 0;
+        margin: 8px 0 6px 0;
+        color: #222;
     }
     .book-author {
-        font-size: 16px; 
+        font-size: 17px; 
         opacity: 0.9;
+        color: #444;
     }
     .hint {
         font-size: 14px; 
-        opacity: 0.8; 
-        margin-top: 12px;
+        opacity: 0.75; 
+        margin-top: 14px;
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-st.markdown('<div class="title">📚 랜덤 책 추천기</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">장르를 고르면 오늘의 한 권을 추천해드려요</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">📖 랜덤 책 추천기 ✨</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">원하는 장르를 고르면 오늘의 책을 추천해드려요</div>', unsafe_allow_html=True)
 
 # 세션 상태로 "다시 뽑기" 동작 제어
 if "roll" not in st.session_state:
@@ -131,7 +133,7 @@ with st.container():
     with col2:
         reroll = st.button("다시 뽑기 🔄")
         if reroll:
-            st.session_state.roll += 1  # 값만 바꿔도 재추천 트리거
+            st.session_state.roll += 1
 
 # ==================
 # 추천 로직 & 출력
@@ -142,7 +144,7 @@ st.markdown("---")
 
 with st.container():
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown(f'<span class="badge">선택한 장르</span> <b>{genre}</b>', unsafe_allow_html=True)
+    st.markdown(f'<span class="badge">📂 선택한 장르: {genre}</span>', unsafe_allow_html=True)
 
     if books_in_genre:
         random.seed((hash(genre) + st.session_state.roll) % (2**32))
@@ -152,17 +154,16 @@ with st.container():
         st.markdown(
             f"""
             <div class="book-title">『{title}』</div>
-            <div class="book-author">저자: {author}</div>
+            <div class="book-author">✍️ 저자: {author}</div>
             """,
             unsafe_allow_html=True,
         )
-
-        st.markdown('<div class="hint">다른 책을 보고 싶다면 <b>다시 뽑기</b>를 눌러보세요!</div>', unsafe_allow_html=True)
+        st.markdown('<div class="hint">👉 다른 책이 궁금하다면 <b>다시 뽑기</b> 버튼을 눌러보세요!</div>', unsafe_allow_html=True)
     else:
         st.markdown(
             """
             <div style="font-size:18px; margin-top:6px;">
-            아직 이 장르의 목록이 비어 있어요.
+            아직 이 장르의 책 목록이 준비되지 않았습니다.
             </div>
             """,
             unsafe_allow_html=True,
@@ -171,4 +172,4 @@ with st.container():
 
 # Footer
 st.markdown("")
-st.caption("© 랜덤 책 추천기")
+st.caption("🎵 좋은 책과 함께하는 하루 되세요!")
